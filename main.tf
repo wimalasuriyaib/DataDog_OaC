@@ -42,8 +42,8 @@ resource "datadog_synthetics_test" "google_browser_monitor" {
   status = "live"  # Required argument
 
   request {
-    url     = "https://www.google.com"
     method  = "GET"
+    url     = "https://www.google.com"
     body    = ""
   }
 
@@ -62,4 +62,14 @@ output "api_monitor_id" {
 
 output "browser_monitor_id" {
   value = datadog_synthetics_test.google_browser_monitor.id
+}
+
+variable "datadog_api_key" {
+  description = "Datadog API Key"
+  type        = string
+}
+
+variable "datadog_app_key" {
+  description = "Datadog Application Key"
+  type        = string
 }
