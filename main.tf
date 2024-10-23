@@ -1,5 +1,14 @@
+terraform {
+  required_providers {
+    datadog = {
+      source  = "datadog/datadog"
+      version = "~> 3.0"  # Specify the appropriate version
+    }
+  }
+}
+
 provider "datadog" {
-  api_key = var.datadog_api_key
+  api_key = var.datadog_api_key  # Ensure these variables are set
   app_key = var.datadog_app_key
 }
 
@@ -17,6 +26,7 @@ resource "datadog_synthetics_test" "google_api_monitor" {
 
   locations = ["aws:us-east-1"]  # Specify the location for the test
   name      = "Google API Monitor"
+  
   options {
     min_failure_duration = 60
     min_location_failed  = 1
@@ -36,8 +46,18 @@ resource "datadog_synthetics_test" "google_browser_monitor" {
 
   locations = ["aws:us-east-1"]  # Specify the location for the test
   name      = "Google Browser Monitor"
+  
   options {
     min_failure_duration = 60
     tick_every           = 300  # Frequency of the checks in seconds
   }
+}
+
+# Output the IDs of the created monitors
+output "api_monitor_id" {
+  value = datadog_synthetics_test.google_api_monitor.id
+}
+
+output "browser_monitor_id" {
+  value = datadog_synthetics_test.google_browser_monitor.id
 }
