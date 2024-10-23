@@ -23,21 +23,21 @@ variable "datadog_app_key" {
   type        = string
 }
 
-# Create a synthetic API check for Google
-resource "datadog_synthetics_test" "google_api_check" {
-  name        = "Google API Check"
+# Create a synthetic API check for the specified URL
+resource "datadog_synthetics_test" "datadog_monitor_check" {
+  name        = "Datadog Monitor Check"
   type        = "api"
 
   request {
     method = "GET"
-    url    = "https://www.google.com"
+    url    = "http://54.160.164.216/datadog_monitor.html"  # Updated URL
     headers = {
       "User-Agent" = "Terraform Synthetic Check"
     }
   }
 
   locations = ["aws:us-east-1"]  # Location for the check
-  message   = "API Check for Google"
+  message   = "API Check for Datadog Monitor"
   tags      = ["env:production", "team:devops"]
 
   status = "live"  # Set the check to live
