@@ -14,10 +14,9 @@ provider "datadog" {
 
 # API Monitor for google.com
 resource "datadog_synthetics_test" "google_api_monitor" {
-  type = "api"
-
-  name      = "Google API Monitor"
-  status    = "live"  # Add the required status argument
+  type   = "api"
+  name   = "Google API Monitor"
+  status = "live"  # Required argument
 
   request {
     method  = "GET"
@@ -38,10 +37,9 @@ resource "datadog_synthetics_test" "google_api_monitor" {
 
 # Browser Monitor for google.com
 resource "datadog_synthetics_test" "google_browser_monitor" {
-  type = "browser"
-
-  name      = "Google Browser Monitor"
-  status    = "live"  # Add the required status argument
+  type   = "browser"
+  name   = "Google Browser Monitor"
+  status = "live"  # Required argument
 
   request {
     url     = "https://www.google.com"
