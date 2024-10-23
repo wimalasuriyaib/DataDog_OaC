@@ -14,18 +14,19 @@ provider "aws" {
 }
 
 provider "datadog" {
-   api_key = var.datadog_api_key
-   app_key = var.datadog_app_key
-   api_url = "https://us5.datadoghq.com/"
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
+  api_url = "https://us5.datadoghq.com/"
 }
 
+# Declare input variables for Datadog API and App keys
 variable "datadog_api_key" {
-  description = "API key for Datadog"
+  description = "Datadog API key"
   type        = string
 }
 
 variable "datadog_app_key" {
-  description = "Application key for Datadog"
+  description = "Datadog Application key"
   type        = string
 }
 
@@ -52,16 +53,6 @@ resource "datadog_synthetics_test" "test_uptime" {
     target   = 302  # Ensure this is a number
   }
 
-  options {
-    tick_every = 200  # Frequency of the check in seconds
-
-    retry {
-      count    = 2
-      interval = 300  # Interval between retries in seconds
-    }
-
-    monitor_options {
-      renotify_interval = 120  # Renotify interval in seconds
-    }
-  }
+  // Add any necessary configuration directly here, based on documentation
+  // If you need to define retry behavior, consider moving it to assertion levels if applicable.
 }
