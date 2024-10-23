@@ -30,9 +30,7 @@ variable "datadog_app_key" {
   type        = string
 }
 
-data "aws_secretsmanager_secret_version" "example_secret" {
-  secret_id = "your_secret_id_here"  # Replace with your actual secret ID
-}
+
 
 resource "datadog_synthetics_test" "test_uptime" {
   name     = "Synthetics Test"
