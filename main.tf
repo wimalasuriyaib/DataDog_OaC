@@ -42,9 +42,8 @@ resource "datadog_synthetics_test" "google_browser_monitor" {
   status = "live"
 
   request {
-    method  = "GET"
-    url     = "https://www.google.com"
-    body    = ""
+    method = "GET"
+    url    = "https://www.google.com"
   }
 
   locations = ["aws:us-east-1"]
