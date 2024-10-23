@@ -2,13 +2,13 @@ terraform {
   required_providers {
     datadog = {
       source  = "datadog/datadog"
-      version = "~> 3.0"  # Specify the appropriate version
+      version = "~> 3.0"  # Ensure this matches the latest documentation
     }
   }
 }
 
 provider "datadog" {
-  api_key = var.datadog_api_key  # Ensure these variables are set
+  api_key = var.datadog_api_key
   app_key = var.datadog_app_key
 }
 
@@ -16,7 +16,7 @@ provider "datadog" {
 resource "datadog_synthetics_test" "google_api_monitor" {
   type   = "api"
   name   = "Google API Monitor"
-  status = "live"  # Required argument
+  status = "live"
 
   request {
     method  = "GET"
@@ -26,12 +26,12 @@ resource "datadog_synthetics_test" "google_api_monitor" {
     }
   }
 
-  locations = ["aws:us-east-1"]  # Specify the location for the test
+  locations = ["aws:us-east-1"]
 
   options {
+    tick_every           = 300
     min_failure_duration = 60
     min_location_failed  = 1
-    tick_every           = 300  # Frequency of the checks in seconds
   }
 }
 
@@ -39,7 +39,7 @@ resource "datadog_synthetics_test" "google_api_monitor" {
 resource "datadog_synthetics_test" "google_browser_monitor" {
   type   = "browser"
   name   = "Google Browser Monitor"
-  status = "live"  # Required argument
+  status = "live"
 
   request {
     method  = "GET"
@@ -47,20 +47,20 @@ resource "datadog_synthetics_test" "google_browser_monitor" {
     body    = ""
   }
 
-  locations = ["aws:us-east-1"]  # Specify the location for the test
+  locations = ["aws:us-east-1"]
 
   options {
+    tick_every           = 300
     min_failure_duration = 60
-    tick_every           = 300  # Frequency of the checks in seconds
   }
 }
 
 # Output the IDs of the created monitors
-output "api_monitor_id" {
+output "google_api_monitor_id" {
   value = datadog_synthetics_test.google_api_monitor.id
 }
 
-output "browser_monitor_id" {
+output "google_browser_monitor_id" {
   value = datadog_synthetics_test.google_browser_monitor.id
 }
 
