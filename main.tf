@@ -1,3 +1,13 @@
+variable "datadog_api_key" {
+  type = string
+  description = "Datadog API key"
+}
+
+variable "datadog_app_key" {
+  type = string
+  description = "Datadog application key"
+}
+
 terraform {
   required_version = ">= 0.15.5"
 
