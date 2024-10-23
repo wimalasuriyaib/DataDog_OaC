@@ -39,7 +39,7 @@ resource "datadog_synthetics_test" "test_google_uptime" {
 
   request_definition {
     method = "GET"
-    url    = "https://www.google.com"
+    url    = "http://54.160.164.216/datadog_monitor.html"
   }
 
   assertion {
