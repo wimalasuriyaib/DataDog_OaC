@@ -1,10 +1,24 @@
+terraform {
+  required_providers {
+    datadog = {
+      source  = "DataDog/datadog"
+      version = "3.46.0" # Adjust the version as needed
+    }
+
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.72.1" # Adjust the version as needed
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-1" # Adjust the region as necessary
 }
 
 provider "datadog" {
-  api_key   = var.datadog_api_key
-  app_key   = var.datadog_app_key
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
 }
 
 resource "datadog_synthetics_test" "test_uptime" {
@@ -32,9 +46,6 @@ resource "datadog_synthetics_test" "test_uptime" {
   ]
 
   tick_every = 60 # Interval in seconds for the test to run
-
-  # Optional: Uncomment if you have an existing monitor ID to link
-  # monitor_id = "your_monitor_id" 
 }
 
 variable "datadog_api_key" {
