@@ -42,8 +42,11 @@ resource "datadog_synthetics_test" "datadog_monitor_check" {
 
   status = "live"  # Set the check to live
 
+  # Adjust the options structure according to the Datadog provider documentation
   options {
     tick_every = 60   # Frequency of the check in seconds
     timeout    = 10    # Timeout for the check in seconds
+    min_failure_duration = 60 # Minimum duration for which the check must fail to trigger an alert
+    min_location_failed = 1   # Number of locations that must fail for the check to be considered failing
   }
 }
