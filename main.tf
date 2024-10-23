@@ -2,7 +2,7 @@ terraform {
   required_providers {
     datadog = {
       source  = "datadog/datadog"
-      version = "~> 3.0"  # Ensure this matches the latest documentation
+      version = ">= 3.46.0"  # Use the latest version
     }
   }
 }
@@ -24,7 +24,7 @@ variable "datadog_app_key" {
 }
 
 # Create a synthetic API check for Google
-resource "datadog_synthetics_api_test" "google_api_check" {
+resource "datadog_synthetics_test" "google_api_check" {
   name        = "Google API Check"
   type        = "api"
 
