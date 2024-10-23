@@ -15,8 +15,18 @@ provider "aws" {
 
 provider "datadog" {
    api_key = var.datadog_api_key
-  app_key = var.datadog_app_key
-  api_url = "https://us5.datadoghq.com/"
+   app_key = var.datadog_app_key
+   api_url = "https://us5.datadoghq.com/"
+}
+
+variable "datadog_api_key" {
+  description = "API key for Datadog"
+  type        = string
+}
+
+variable "datadog_app_key" {
+  description = "Application key for Datadog"
+  type        = string
 }
 
 data "aws_secretsmanager_secret_version" "example_secret" {
