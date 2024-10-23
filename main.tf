@@ -29,40 +29,15 @@ resource "datadog_synthetics_test" "google_api_monitor" {
   locations = ["aws:us-east-1"]
 
   options {
-    tick_every           = 300
-    min_failure_duration = 60
-    min_location_failed  = 1
-  }
-}
-
-# Browser Monitor for google.com
-resource "datadog_synthetics_test" "google_browser_monitor" {
-  type   = "browser"
-  name   = "Google Browser Monitor"
-  status = "live"
-
-  request {
-    method = "GET"
-    url    = "https://www.google.com"
+    tick_every           = 300   # Check every 5 minutes
+    min_failure_duration = 60    # Minimum duration (in seconds) before failing the test
+    min_location_failed  = 1      # At least one location must fail for the test to be considered a failure
   }
 
-  locations = ["aws:us-east-1"]
-
-  options {
-    tick_every           = 300
-    min_failure_duration = 60
-  }
+  tags = ["environment:production"] # Optional: Add tags for better organization
 }
 
-# Output the IDs of the created monitors
-output "google_api_monitor_id" {
-  value = datadog_synthetics_test.google_api_monitor.id
-}
-
-output "google_browser_monitor_id" {
-  value = datadog_synthetics_test.google_browser_monitor.id
-}
-
+# Define variables for API and App keys
 variable "datadog_api_key" {
   description = "Datadog API Key"
   type        = string
