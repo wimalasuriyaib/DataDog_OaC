@@ -1,52 +1,57 @@
 terraform {
+  required_version = ">= 0.15.5"
+
   required_providers {
     datadog = {
-      source  = "datadog/datadog"
-      version = ">= 3.46.0"  # Use the latest version
+      source  = "DataDog/datadog"
+      version = ">= 3.0.0"
     }
   }
+}
+
+provider "aws" {
+  region = "us-east-1"  # Adjust the region as needed
 }
 
 provider "datadog" {
-  api_key = var.datadog_api_key
+   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
+  api_url = "https://us5.datadoghq.com/"
 }
 
-# Define variables for API and App keys
-variable "datadog_api_key" {
-  description = "Datadog API Key"
-  type        = string
+data "aws_secretsmanager_secret_version" "example_secret" {
+  secret_id = "your_secret_id_here"  # Replace with your actual secret ID
 }
 
-variable "datadog_app_key" {
-  description = "Datadog Application Key"
-  type        = string
-}
+resource "datadog_synthetics_test" "test_uptime" {
+  name     = "Synthetics Test"
+  type     = "api"
+  subtype  = "http"
+  status   = "live"
+  message  = "Notify on failure"
+  locations = ["aws:eu-central-1", "aws:us-east-1", "aws:ap-southeast-1"]
 
-# Create a synthetic API check for the specified URL
-resource "datadog_synthetics_test" "datadog_monitor_check" {
-  name        = "Datadog Monitor Check"
-  type        = "api"
-
-  request {
+  request_definition {
     method = "GET"
-    url    = "http://54.160.164.216/datadog_monitor.html"  # Updated URL
-    headers = {
-      "User-Agent" = "Terraform Synthetic Check"
-    }
+    url    = "http://54.160.164.216/datadog_monitor.html"
   }
 
-  locations = ["aws:us-east-1"]  # Location for the check
-  message   = "API Check for Datadog Monitor"
-  tags      = ["env:production", "team:devops"]
+  assertion {
+    type     = "statusCode"
+    operator = "is"
+    target   = 302  # Ensure this is a number
+  }
 
-  status = "live"  # Set the check to live
-
-  # Adjust the options structure according to the Datadog provider documentation
   options {
-    tick_every = 60   # Frequency of the check in seconds
-    timeout    = 10    # Timeout for the check in seconds
-    min_failure_duration = 60 # Minimum duration for which the check must fail to trigger an alert
-    min_location_failed = 1   # Number of locations that must fail for the check to be considered failing
+    tick_every = 200  # Frequency of the check in seconds
+
+    retry {
+      count    = 2
+      interval = 300  # Interval between retries in seconds
+    }
+
+    monitor_options {
+      renotify_interval = 120  # Renotify interval in seconds
+    }
   }
 }
