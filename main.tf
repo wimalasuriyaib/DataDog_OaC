@@ -36,11 +36,11 @@ resource "datadog_synthetics_test" "google_api_check" {
     }
   }
 
-  locations = ["aws:us-east-1"]
+  locations = ["aws:us-east-1"]  # Location for the check
   message   = "API Check for Google"
   tags      = ["env:production", "team:devops"]
 
-  status = "live"
+  status = "live"  # Set the check to live
 
   options {
     tick_every = 60   # Frequency of the check in seconds
