@@ -30,7 +30,7 @@ provider "datadog" {
 }
 
 resource "datadog_synthetics_test" "test_google_uptime" {
-  name     = "Google Uptime Test"
+  name     = "Cric Uptime Test"
   type     = "api"
   subtype  = "http"
   status   = "live"
@@ -39,7 +39,7 @@ resource "datadog_synthetics_test" "test_google_uptime" {
 
   request_definition {
     method = "GET"
-    url    = "http://54.160.164.216/datadog_monitor.html"
+    url    = "http://www.cricinfo.com"
   }
 
   assertion {
